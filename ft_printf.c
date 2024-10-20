@@ -6,50 +6,58 @@
 /*   By: rstumpf <rstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 08:13:30 by rstumpf           #+#    #+#             */
-/*   Updated: 2024/10/19 17:59:43 by rstumpf          ###   ########.fr       */
+/*   Updated: 2024/10/20 13:05:41 by rstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "libft/libft.h"
+# include <stdarg.h>
 
-static	int	count_format_specifiers(const char *format)
+// static	int	count_format_specifiers(char *format)
+// {
+// 	int		count;
+
+// 	count = 0;
+// 	while (format[count])
+// 		if (format[count] == '%' && format[count + 1] != '%')
+// 			count ++;
+// 	return (count);
+// }
+
+static	int	print_different_formats(char *s, va_list ap)
 {
-	int		count;
-
-	count = 0;
-	while (format[count])
-		if (format[count] == "%" && format[count + 1] != "%")
-			count ++;
-	return (count);
+	if (*s == '%')
+		return (ft_putchar_fd('%', 1));
+	else if (*s == 'c')
+		return (ft_putchar_fd(va_arg(ap, int), 1));
+	else if (*s == 's')
+		return (ft_putstr_fd(va_arg(ap, char *), 1));
+	else if (*s == 'd')
+		return (ft_putnbr_fd(va_arg(ap, int), 1));
+	else if (*s == 'i')
+		return (ft_putnbr_fd(va_arg(ap, int), 1));
+	return (1);
 }
 
-static	int	print_different_formats(const char *s)
-{
-	if (*s == "")
-}
-
-int	ft_printf(const char *format, ...)
+int	ft_printf(char *format, ...)
 {
 	va_list	ap;
-	int		format_specifiers;
-	int		count_arguments;
+	int		count_output;
 
-	format_specifiers = 0;
-	format_specifiers = count_format_specifiers(format);
-	va_start(ap, format_specifiers);
+	count_output = 0;
+	va_start(ap, format);
 	while (*format)
 	{
-		if (*format == "%")
+		if (*format == '%')
 		{
 			format++;
-			
+			count_output += print_different_formats(format, ap);
+			format++;
 		}
+		count_output += ft_putchar_fd(*format, 1);
+		format++;
 	}
-
-	return ();
+	return (count_output);
 }
 
 int	main(void)
