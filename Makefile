@@ -1,34 +1,28 @@
-NAME			= libftprintf.a
-LIBFT			= libft
-CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra
-RM				= rm -f
-AR				= ar rcs
+NAME            = libftprintf.a
+LIBFT_PATH      = ./libft
+LIBFT           = $(LIBFT_PATH)/libft.a
+CC              = gcc
+CFLAGS          = -Wall -Werror -Wextra
+RM              = rm -f
+AR              = ar rcs
 
-SRCS 			=	ft_printf.c
-OBJS			=	$(SRCS:.c=.o)
+SRCS            = ft_printf.c libft/ft_putchar_fd.c libft/ft_putnbr_fd.c libft/ft_putstr_fd.c libft/ft_putunsignednbr_fd.c
+OBJS            = $(SRCS:.c=.o)
 
-LIBFT_PATH		=	./libft
-LIBFT			=	$(LIBFT_PATH)/libft.a
+all:            $(NAME)
 
-all:			$(NAME)
+$(NAME):        $(OBJS)
+				$(MAKE) -C $(LIBFT_PATH)
+				ar rcs $(NAME) $(OBJS) $(LIBFT)
 
-$(NAME):		$(OBJS)
-				$(MAKE) -C ./libft
-				cp libft/libft.a $(NAME)
-				ar rcs $(NAME) $(OBJS)
+clean:
+				$(MAKE) clean -C $(LIBFT_PATH)
+				$(RM) $(OBJS)
 
-clean:			
-				$(MAKE) clean -C ./libft
-				$(RM) $(OBJS) $(BONUS_OBJS)
-
-fclean:			clean
-				$(MAKE) fclean -C ./libft
+fclean:         clean
+				$(MAKE) fclean -C $(LIBFT_PATH)
 				$(RM) $(NAME)
 
-re:				fclean $(NAME)
+re:             fclean all
 
-bonus:			$(OBJS) $(BONUS_OBJS)
-				ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
-
-.PHONY:			all clean fclean re bonus
+.PHONY:         all clean fclean re bonus
