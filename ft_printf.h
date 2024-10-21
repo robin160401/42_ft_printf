@@ -6,7 +6,7 @@
 /*   By: rstumpf <rstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:13:47 by rstumpf           #+#    #+#             */
-/*   Updated: 2024/10/21 15:14:53 by rstumpf          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:55:38 by rstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 int			ft_printf(const char *format, ...);
 int			print_hexadecimal(int islower, unsigned long x);
-int			print_address(unsigned long x);
-
+int			check_error_print_address(unsigned long p);
 
 #endif

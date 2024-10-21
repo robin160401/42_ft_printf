@@ -6,7 +6,9 @@ CFLAGS          = -Wall -Werror -Wextra
 RM              = rm -f
 AR              = ar rcs
 
-SRCS            = ft_printf.c print_address.c print_hexadecimal.c libft/ft_putchar_fd.c libft/ft_putnbr_fd.c libft/ft_putstr_fd.c libft/ft_putunsignednbr_fd.c
+SRCS            = ft_printf.c print_hexadecimal.c check_error_print_address.c libft/ft_putchar_fd.c \
+				  libft/ft_putnbr_fd.c libft/ft_putstr_fd.c libft/ft_putunsignednbr_fd.c
+				  
 OBJS            = $(SRCS:.c=.o)
 
 all:            $(NAME)

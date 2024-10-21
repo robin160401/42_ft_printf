@@ -6,7 +6,7 @@
 /*   By: rstumpf <rstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 08:13:30 by rstumpf           #+#    #+#             */
-/*   Updated: 2024/10/21 15:29:30 by rstumpf          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:54:07 by rstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static	int	print_different_formats(const char *s, va_list ap)
 {
-	int	check_error;
-
-	check_error = 0;
 	if (*s == '%')
 		return (ft_putchar_fd('%', 1));
 	else if (*s == 'c')
@@ -34,12 +31,8 @@ static	int	print_different_formats(const char *s, va_list ap)
 	else if (*s == 'X')
 		return (print_hexadecimal(0, va_arg(ap, unsigned int)));
 	else if (*s == 'p')
-	{
-		check_error = write(1, "0x", 2);
-		if (check_error != -1)
-			return (print_address(va_arg(ap, unsigned long)) + 2);
-	}
-	return (check_error);
+		return (check_error_print_address(va_arg(ap, unsigned long)));
+	return (-1);
 }
 
 int	ft_printf(const char *format, ...)
@@ -56,15 +49,13 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			print_output = print_different_formats(format, ap);
+			print_output = print_different_formats(format++, ap);
 			count_output += print_output;
-			format++;
 		}
 		else if (*format != '\0')
 		{
-			print_output = ft_putchar_fd(*format, 1);
+			print_output = ft_putchar_fd(*format++, 1);
 			count_output += print_output;
-			format++;
 		}
 		if (print_output == -1)
 			return (-1);
