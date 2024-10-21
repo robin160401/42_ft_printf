@@ -6,34 +6,17 @@
 /*   By: rstumpf <rstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 08:13:30 by rstumpf           #+#    #+#             */
-/*   Updated: 2024/10/21 12:42:56 by rstumpf          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:29:30 by rstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "ft_printf.h"
-
-static	int	print_hexadecimal(int islower, unsigned long x)
-{
-	int		count;
-	char	*hexadecimal;
-
-	if (islower)
-		hexadecimal = "0123456789abcdef";
-	else
-		hexadecimal = "0123456789ABCDEF";
-	if (x < 16)
-		return (ft_putchar_fd(hexadecimal[x], 1));
-	else
-	{
-		count = print_hexadecimal(islower, x / 16);
-		count += print_hexadecimal(islower, x % 16);
-		return (count);
-	}
-}
 
 static	int	print_different_formats(const char *s, va_list ap)
 {
+	int	check_error;
+
+	check_error = 0;
 	if (*s == '%')
 		return (ft_putchar_fd('%', 1));
 	else if (*s == 'c')
@@ -51,9 +34,12 @@ static	int	print_different_formats(const char *s, va_list ap)
 	else if (*s == 'X')
 		return (print_hexadecimal(0, va_arg(ap, unsigned int)));
 	else if (*s == 'p')
-		return (write(1, "0x", 2)
-			+ print_hexadecimal(1, va_arg(ap, unsigned long)));
-	return (ft_putchar_fd('%', 1));
+	{
+		check_error = write(1, "0x", 2);
+		if (check_error != -1)
+			return (print_address(va_arg(ap, unsigned long)) + 2);
+	}
+	return (check_error);
 }
 
 int	ft_printf(const char *format, ...)
@@ -71,19 +57,17 @@ int	ft_printf(const char *format, ...)
 		{
 			format++;
 			print_output = print_different_formats(format, ap);
-			if (print_output == -1)
-				return (-1);
 			count_output += print_output;
 			format++;
 		}
 		else if (*format != '\0')
 		{
 			print_output = ft_putchar_fd(*format, 1);
-			if (print_output == -1)
-				return (-1);
 			count_output += print_output;
 			format++;
 		}
+		if (print_output == -1)
+			return (-1);
 	}
 	va_end(ap);
 	return (count_output);
