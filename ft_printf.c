@@ -6,7 +6,7 @@
 /*   By: rstumpf <rstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 08:13:30 by rstumpf           #+#    #+#             */
-/*   Updated: 2024/10/21 15:54:07 by rstumpf          ###   ########.fr       */
+/*   Updated: 2024/10/21 17:21:31 by rstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_printf(const char *format, ...)
 // 	// int hexa = -12;
 // 	// count2 = 20;
 
-// 	ft_printf("My printf %i \n", -1111);
+// 	ft_printf("My printf %x \n", -12);
 // 	printf("Real printf %i \n", -1111);
 // 	ft_printf("My printf %d \n", -1111);
 // 	printf("Real printf %d \n", -1111);
