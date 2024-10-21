@@ -6,7 +6,7 @@
 /*   By: rstumpf <rstumpf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 08:13:30 by rstumpf           #+#    #+#             */
-/*   Updated: 2024/10/20 19:55:27 by rstumpf          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:42:56 by rstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ static	int	print_hexadecimal(int islower, unsigned long x)
 
 static	int	print_different_formats(const char *s, va_list ap)
 {
-	if (*s == 'c')
+	if (*s == '%')
+		return (ft_putchar_fd('%', 1));
+	else if (*s == 'c')
 		return (ft_putchar_fd(va_arg(ap, int), 1));
 	else if (*s == 's')
 		return (ft_putstr_fd(va_arg(ap, char *), 1));
@@ -58,20 +60,28 @@ int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
 	int		count_output;
+	int		print_output;
 
 	count_output = 0;
+	print_output = 0;
 	va_start(ap, format);
 	while (*format)
 	{
 		if (*format == '%')
 		{
 			format++;
-			count_output += print_different_formats(format, ap);
+			print_output = print_different_formats(format, ap);
+			if (print_output == -1)
+				return (-1);
+			count_output += print_output;
 			format++;
 		}
-		if (*format != '\0')
+		else if (*format != '\0')
 		{
-			count_output += ft_putchar_fd(*format, 1);
+			print_output = ft_putchar_fd(*format, 1);
+			if (print_output == -1)
+				return (-1);
+			count_output += print_output;
 			format++;
 		}
 	}
@@ -79,19 +89,19 @@ int	ft_printf(const char *format, ...)
 	return (count_output);
 }
 
-int	main(void)
-{
-	int	count;
-	int count2;
-	// int hexa = -12;
-	// count2 = 20;
+// int	main(void)
+// {
+// 	int	count;
+// 	int count2;
+// 	// int hexa = -12;
+// 	// count2 = 20;
 
-	ft_printf("My printf %i \n", -1111);
-	printf("Real printf %i \n", -1111);
-	ft_printf("My printf %d \n", -1111);
-	printf("Real printf %d \n", -1111);
-	count = ft_printf("My printf %%%% \n");
-	printf("My count %d \n", count);
-	count2 = printf("Real printf %%%% \n");
-	printf("Original count %d \n", count2);
-}
+// 	ft_printf("My printf %i \n", -1111);
+// 	printf("Real printf %i \n", -1111);
+// 	ft_printf("My printf %d \n", -1111);
+// 	printf("Real printf %d \n", -1111);
+// 	count = ft_printf("My printf %%%% \n");
+// 	printf("My count %d \n", count);
+// 	count2 = printf("Real printf %%%% \n");
+// 	printf("Original count %d \n", count2);
+// }
